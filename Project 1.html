@@ -1,0 +1,324 @@
+<html>
+<head>
+<title> Project 1</title>
+
+<script type="text/javascript" src="script/soundmanager2.js"></script>
+<script type="text/javascript" src="script/loadsoundchrome.js"></script>
+
+<script src="../processing-1.4.1.js"></script>
+<script type="text/processing" data-processing-target="mycanvas">
+
+
+
+
+PImage space;//Background
+PImage spaceship;//Our spaceship
+PImage enemy;//Picture of the enemy
+PImage boss;//Picture of the biggest enemy
+PImage laser;//picture of laser
+PImage laser2;//picture of laser
+
+int x;//x-position of the our spaceship
+int x1;//x-position of the biggest enemy
+int x2;//x-position of the enemy
+int x3;//x-position of the enemy
+int x4;//x-position of the enemy
+int x5;//x-position of the enemy
+
+int y;//y-position of the our spaceship
+int y1;//y-position of the biggest enemy
+int y2;//y-position of the enemy
+int y3;//y-position of the enemy
+int y4;//y-position of the enemy
+int y5;//y-position of the enemy
+
+int lifeBossHas;//number of lives of the biggest enemy has
+
+int fire;//situation of the firing
+
+int counter1;
+
+int p1;//situation of the biggest enemy
+int p2;//situation of the enemy
+int p3;//situation of the enemy
+int p4;//situation of the enemy
+int p5;//situation of the enemy
+
+int w;
+int fire;
+int initialTime = 0;
+int newSecond = 0;
+int q = 0;
+int minuteMultiplier = 0;
+int reversedTime = 0;
+boolean recordTime = false;
+boolean nextMinute = true;
+
+
+void setup()
+{  
+    size(1430, 790); 
+    cartoon = loadFont("From Cartoon Blocks");
+    space = loadImage("space.jpg");
+    
+    spaceship = loadImage("spaces.gif");
+    
+    enemy = loadImage("space1.png");
+    boss = loadImage("space3.png");
+    
+    x1 = 0;
+    x2 = 0;
+    x3 = 0;
+    x4 = 0;
+    x5 = 0;
+    
+    y1 = 0;
+    y2 = 50;
+    y3 = 0;
+    y4 = 20;
+    y5 = 0;
+    
+    lifeBossHas = 10;
+    lifeDecreases = 1;
+    
+    laser = loadImage("1.png");
+    laser2 = loadImage("2.png");
+    
+    x=565;
+    y=650;
+    
+    fire=0;
+  
+    counter1 = 5;       
+	p1 = 0;
+	p2 = 0;
+	p3 = 0;
+	p4 = 0;
+	p5 = 0;
+}
+
+
+
+void draw()
+{
+	textFont(cartoon,32);
+    image(space,0,0);
+
+  
+    //spaceship moves
+    if (keyPressed == true)
+	{
+	    if (key == 'a')
+	    {
+		    x = x - 5;
+	    }
+	    
+	    if (key == 'd')
+		{
+		    x = x + 5;
+		}
+	}
+	
+	//spaceship fires
+	
+	if (keyPressed == true)
+	{
+		if (key == ' ')
+		{
+            image(laser2,x+200,y);
+            image(laser,x+80,y);
+            fire = 1;
+		}
+	} 
+	
+	
+	if (fire == 1)
+	{
+        image(laser2,x+200,y);
+        image(laser,x+80,y);
+        y = y - 25;
+	}
+	
+	if (y < 0)
+    {
+        y = 800;
+        fire = 0;
+	} 
+
+    
+// enemy spaceship
+    // image(space1,amplitude((frequency)+centerpoint,20);
+	
+	image(enemy,x2,y2);
+	image(enemy,x3,y3);
+	image(enemy,x4,y4);
+	image(enemy,x5,y5);
+	
+	image(boss,x1,y1);
+	
+	//our spaceship
+    image(spaceship,x,565);
+
+	
+	x1 = 500 * sin(frameCount/60) + 475;
+    x2 = 150 * sin(frameCount/60)+ 150;
+    x3 = -130 * sin(frameCount/60)+ 630;
+    x4 = 120 * sin(frameCount/55)+ 925;
+    x5 = -140 * sin(frameCount/55)+ 1200;
+    
+    y2 = y2 + 0.9;
+    y3 = y3 + 0.8;
+    y4 = y4 + 0.7;
+    y5 = y5 + 0.6;
+
+
+//collision 
+    //Boss
+	d1 = (int)sqrt(sq((x+140)-(x1+230))+sq(y-y1));
+	
+	if( d1 < 350 && y > 0 && y < 30)
+	{
+        p1 = 1;
+	}
+	
+	if (p1 == 1)
+	{
+	    lifeBossHas = lifeBossHas - 1;
+	    p1 = 0;
+	}
+	
+	if(lifeBossHas == 0)
+	{
+	    y1 = 800;
+	}
+	
+	fill(255,0,0);
+	rect(x1+180,10,10*lifeBossHas,20);
+	
+	//Small enemies
+	d2 = (int)sqrt(sq((x+140)-(x2+40))+sq(y-y2));
+	
+	if( d2 < 150)
+	{
+        p2 = 1;
+	}
+	
+	if (p2 == 1)
+	{
+	    y2 = 800;
+	    p2 = 0;
+	}
+	
+	
+	d3 = (int)sqrt(sq((x+140)-(x3+40))+sq(y-y3));
+	
+	if( d3 < 150)
+	{
+        p3 = 1;
+	}
+	
+	if (p3 == 1)
+	{
+	    y3 = 800;
+	    p3 = 0;
+	}
+	
+	
+	d4 = (int)sqrt(sq((x+140)-(x4+40))+sq(y-y4));
+	
+	if( d4 < 150)
+	{
+        p4 = 1;
+	}
+	
+	if (p4 == 1)
+	{
+	    y4 = 800;
+	    p4 = 0;
+	}
+	
+	
+	d5 = (int)sqrt(sq((x+140)-(x5+40))+sq(y-y5));
+	
+	if( d5 < 150)
+	{
+        p5 = 1;
+	}
+	
+	if (p5 == 1)
+	{
+	    y5 = 800;
+	    p5 = 0;
+	}
+	
+
+	
+	//generate enemies
+	if( y5 >= 800 && x1 >= 900 && x1 <= 920 && y1 < 800)
+	{
+	    y5 = 20;
+	}
+	
+	if( y4 >= 800 && x1 >= 750 && x1 <= 770 && y1 < 800)
+	{
+	    y4 = 20;
+	}
+	
+	if( y3 >= 800 && x1 >= 350 && x1 <= 370 && y1 < 800)
+	{
+	    y3 = 20;
+	}
+
+    if( y2 >= 800 && x1 >= 50 && x1 <= 70 && y1 < 800)
+	{
+	    y2 = 20;
+	}
+	
+	
+	//Game Over
+	if(lifeBossHas == 0 && y2 > 800 && y3 > 800 && y4 > 800 && y5 > 800)
+	{
+	    link("Winning page.html");
+	}
+	
+	if(y2 > 690 && y2 < 710 || y3 > 690  && y3 < 710|| y4 > 690 && y4 < 710 || y5 > 690 && y5 < 710)
+	{
+	    link("Gameover.html");
+	}
+	 
+	
+	if (second() == 0)
+    {
+        if (q == 0)
+        {
+            minuteMultiplier = minuteMultiplier + 1;
+            q = 5;
+        }
+    }
+
+    if (recordTime == false)
+    {
+        recordTime = true;
+        initialTime = second();
+    }
+    
+    //                                 25..59   - 25
+    newSecond = minuteMultiplier*60 + second() - initialTime;
+    reversedTime = 30 - newSecond;
+    
+    fill(255,255,255);
+    text("Time:"+reversedTime,100,100);
+    
+    if (reversedTime == 0)
+    {
+        link("Gameover.html")
+    }
+}
+</script>
+<canvas id="mycanvas"></canvas>
+</head>
+
+<body>
+
+</body>
+</html>

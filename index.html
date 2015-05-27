@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>home</title>
+<script src="../processing-1.4.1.js"></script>
+<script type="text/processing" data-processing-target="mycanvas">
+
+PImage homepage;
+PImage start1;
+PImage start;
+
+void setup()
+{  
+    size( 1430, 790 ); 
+    
+   homepage = loadImage("homepage.jpg");
+   start = loadImage("start.jpg");
+   start1 = loadImage("start1.png");
+   
+}
+
+void draw()
+{
+image(homepage,0,0,1430,790);
+image(start,650,530,150,130);
+    
+    if (mouseX > 650 && mouseX < 800 && mouseY > 530 && mouseY < 660)
+   	  {
+	 image(start1,650,530,150,130);
+   	  }
+   	  
+   	 if (mousePressed == true && mouseButton == LEFT)
+    {
+    if (mouseX > 650 && mouseX < 800 && mouseY > 530 && mouseY < 660)
+   	  {
+	 link("project 1.html");
+   	  }
+    }
+    
+
+	
+	
+}
+
+</script>
+<canvas id="mycanvas"></canvas>
+</head>
+
+<body>
+
+</body>
+</html>
